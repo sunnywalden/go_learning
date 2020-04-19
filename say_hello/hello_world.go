@@ -1,13 +1,10 @@
-package main
+package say_hello
 
 import (
 	"fmt"
-	"os"
 )
 
-var Monday = 1
-
-func main (){
-	fmt.Println("Hello World!", os.Args[1])
-	os.Exit(0)
+func SayHello (){
+	fmt.Println("Hello World!")
+	//os.Exit(0)
 }
