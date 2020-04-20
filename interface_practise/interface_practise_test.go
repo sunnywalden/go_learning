@@ -55,6 +55,10 @@ func (c *CloseSqlConn) CloseConnection(con SqlConn) (res bool, err error) {
 	return true,nil
 }
 
+type SqlQuery interface {
+	SqlQuering(con SqlConn, sql string) (res string, err error)
+}
+
 type SqlQueryor struct {
 }
 
