@@ -5,44 +5,62 @@ import (
 	"time"
 )
 
-func MultiChannel(music string, news string) (string, string) {
-	Chan_music,_ := MusicChannel(music)
-	Chan_news,_ := NewsChannel(news)
+func MultiChannelListener(MusicChan,NewsChan  chan string) (res string,ending bool) {
+
 	select {
-		case res := <- Chan_music:
-			fmt.Printf("You're listening to music channel.\nNext song's %s!", res)
-			return res,""
-			case res := <- Chan_news:
-				fmt.Printf("You're listening to news channel.\n %s!", res)
-				return res,""
-				case <- time.After(time.Second * 3):
-					fmt.Print("Timeout after 3 seconds!")
-					res := "Timeout"
-					return "",res
+		case res,ok := <- MusicChan:
+			if ok {
+				fmt.Printf("Next song!\n %s\n", res)
+				return res, false
+			}
+	case <- time.After(time.Second * 5):
+		fmt.Print("Timeout after 5 seconds!")
+		return "",true
 	default:
 		fmt.Print("No channel available!")
-		res := "No channel"
-		return "",res
+		//res := "No channel"
+		return "",true
+	}
+
+	select {
+
+		case res,ok := <- NewsChan:
+			if ok {
+				fmt.Printf("Next news!.\n %s\n", res)
+				return res, false
+			}
+		case <- time.After(time.Second * 5):
+			fmt.Print("Timeout after 5 seconds!")
+			return "",true
+		default:
+			fmt.Print("News channel not available!")
+			return "",true
+	}
+
+	return "",true
+}
+
+
+func MusicListener(MusicChan chan string) (music string,ending bool) {
+	music, ok := <- MusicChan
+	if ok {
+		fmt.Printf("Now you're hearing %s !'\n'", music)
+		time.Sleep(time.Second * 3)
+		return music, false
+	} else {
+		Output("Rest time!", "")
+		return "Rest time!", true
 	}
 }
 
-
-func MusicChannel(m string) (chan string,string) {
-	MusicChan := make(chan string, 3)
-
-	fmt.Printf("Now you're hearing %s !'\n'", m)
-	time.Sleep(time.Second * 5)
-	MusicChan <- m
-
-	return MusicChan,""
-}
-
-func NewsChannel(n string) (chan string,string) {
-	NewsChan := make(chan string, 3)
-
-	fmt.Printf("Head news! %s !'\n'", n)
-	time.Sleep(time.Second * 1)
-	NewsChan <- n
-
-	return NewsChan,""
+func NewsListener(NewsChan chan string) (news string,ending bool) {
+	news, ok := <- NewsChan
+	if ok {
+		fmt.Printf("Heading news!\n %s !'\n'", news)
+		time.Sleep(time.Second * 3)
+		return news, false
+	} else {
+		Output("Rest time!", "")
+		return "Rest time!", true
+	}
 }
