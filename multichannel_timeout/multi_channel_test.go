@@ -1,7 +1,6 @@
 package multichannel_timeout
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -18,10 +17,10 @@ func TestMusicChannel(t *testing.T) {
 	MusicChannel(MusicChan)
 	for {
 		res,ending := MusicListener(MusicChan)
-		if ending {
+		if ending != "" {
 			break
 		} else {
-			fmt.Printf("Music for now. %s\n", res)
+			Output("Music for now." + res + "\n", "")
 		}
 	}
 
@@ -34,27 +33,27 @@ func TestNewsChannel(t *testing.T) {
 	NewsChannel(NewsChan)
 	for {
 		res,ending := NewsListener(NewsChan)
-		if ending {
+		if ending != "" {
 			break
 		} else {
-			fmt.Printf("News for now. %s\n", res)
+			Output("News for now." + res +  "\n", "")
 		}
 	}
 
 }
 
 
-func TestMultiChannel(t *testing.T) {
-	NewsChan := make(chan string, 5)
-	MusicChan := make(chan string, 5)
-	NewsChannel(NewsChan)
-	MusicChannel(MusicChan)
-	for {
-		res,ending := MultiChannelListener(MusicChan,NewsChan)
-		if ending {
-			break
-		} else {
-			fmt.Printf("For now. %s\n", res)
-		}
-	}
-}
+//func TestMultiChannel(t *testing.T) {
+//	NewsChan := make(chan string, 5)
+//	MusicChan := make(chan string, 5)
+//	NewsChannel(NewsChan)
+//	MusicChannel(MusicChan)
+//	for {
+//		res,ending := MultiChannelListener(MusicChan,NewsChan)
+//		if ending {
+//			break
+//		} else {
+//			fmt.Printf("For now. %s\n", res)
+//		}
+//	}
+//}

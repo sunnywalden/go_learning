@@ -1,6 +1,7 @@
 package multichannel_timeout
 
 import (
+	"context"
 	"fmt"
 	"time"
 )
@@ -13,54 +14,62 @@ func Output(res string, err string) {
 	}
 }
 
-func MusicChannel(MusicChan chan string) {
-	var Musics = [...]string{"La la City", "We back to love", "Reality"}
-	fmt.Print("You're listening to music channel.\n")
-	for _,m := range Musics {
-			fmt.Printf("Next song's %s !'\n'", m)
-			MusicChan <- m
-			time.Sleep(time.Second * 5)
+func TaskCancel(Chan chan string) {
+	close(Chan)
+}
+
+
+func IsCancel(ctx context.Context) bool {
+	select {
+	case <- ctx.Done():
+		return true
+		default:
+			return false
 
 	}
-	close(MusicChan)
+}
 
+func MusicChannel(MusicChan chan string) {
+	var Musics = [...]string{"La la City", "We back to love", "Reality"}
+
+	Output("You're listening to music channel.\n", "")
+
+	for _,music := range Musics {
+
+
+				Output("Next song's " + music + ".\n", "")
+				MusicChan <- music
+				time.Sleep(time.Second * 4)
+
+
+	}
 }
 
 
 func NewsChannel(NewsChan chan string) {
 	var News = [...]string{"Sony invest Bilibili for 4 billion dollars!", "Crown's flowing all over the world!"}
-	fmt.Print("You're listening to Breaking News channel.\n")
+	Output("You're listening to Breaking News channel.\n","")
 
 	for _,n := range News {
-		fmt.Printf("%s !'\n'", n)
+		Output(n + "!" + "\n","")
 		NewsChan <- n
 		time.Sleep(time.Second * 3)
 	}
-	close(NewsChan)
 }
 
-func MultiChannel(MusicChan chan string,NewsChan chan string) {
-	//MusicChan := make(chan string, 5)
-	//NewsChan := make(chan string, 5)
-	MusicChannel(MusicChan)
-	NewsChannel(NewsChan)
-	select {
-	case res := <- MusicChan:
-		fmt.Printf("You're listening to music channel!\n%s\n", res)
-		//close()
-		//return res,""
-	case res := <- NewsChan:
-		fmt.Printf("You're listening to news channel!\n%s\n", res)
-		//close(MusicChan)
-		//return res,""
-	case <- time.After(time.Second * 3):
-		fmt.Print("Timeout after 3 seconds!")
-		//res := "Timeout"
-		//return "",res
-	default:
-		fmt.Print("No channel available!")
-		//res := "No channel"
-		close(MusicChan)
-		close(NewsChan)
-	}
-}
+//func MultiChannel(MusicChan chan string,NewsChan chan string) {
+//	MusicChannel(MusicChan)
+//	NewsChannel(NewsChan)
+//	select {
+//	case res := <- MusicChan:
+//		fmt.Printf("You're listening to music channel!\n%s\n", res)
+//	case res := <- NewsChan:
+//		fmt.Printf("You're listening to news channel!\n%s\n", res)
+//	case <- time.After(time.Second * 3):
+//		fmt.Print("Timeout after 3 seconds!")
+//	default:
+//		fmt.Print("No channel available!")
+//		close(MusicChan)
+//		close(NewsChan)
+//	}
+//}

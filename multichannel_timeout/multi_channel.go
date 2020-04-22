@@ -5,21 +5,20 @@ import (
 	"time"
 )
 
-func MultiChannelListener(MusicChan,NewsChan  chan string) (res string,ending bool) {
+func MultiChannelListener(MusicChan,NewsChan  chan string) (res string,err string) {
 
 	select {
 		case res,ok := <- MusicChan:
 			if ok {
 				fmt.Printf("Next song!\n %s\n", res)
-				return res, false
+				return res, ""
 			}
 	case <- time.After(time.Second * 5):
 		fmt.Print("Timeout after 5 seconds!")
-		return "",true
+		return "","Timeout"
 	default:
 		fmt.Print("No channel available!")
-		//res := "No channel"
-		return "",true
+		return "", "channel not available"
 	}
 
 	select {
@@ -27,40 +26,47 @@ func MultiChannelListener(MusicChan,NewsChan  chan string) (res string,ending bo
 		case res,ok := <- NewsChan:
 			if ok {
 				fmt.Printf("Next news!.\n %s\n", res)
-				return res, false
+				return res, ""
 			}
 		case <- time.After(time.Second * 5):
 			fmt.Print("Timeout after 5 seconds!")
-			return "",true
+			return "","Timeout"
 		default:
 			fmt.Print("News channel not available!")
-			return "",true
+			return "","channel not available"
 	}
 
-	return "",true
+	return "","Rest time"
 }
 
 
-func MusicListener(MusicChan chan string) (music string,ending bool) {
-	music, ok := <- MusicChan
-	if ok {
-		fmt.Printf("Now you're hearing %s !'\n'", music)
-		time.Sleep(time.Second * 3)
-		return music, false
-	} else {
-		Output("Rest time!", "")
-		return "Rest time!", true
-	}
+func MusicListener(MusicChan chan string) (res string, err string) {
+	go func(MusicChan chan string) (res string, err string) {
+			music, ok := <-MusicChan
+			if ok {
+					Output("Next music! " + music + "!\n", "")
+					time.Sleep(time.Second * 3)
+					return music, ""
+				} else {
+					Output("Rest time!", "")
+					return "", "Rest time!"
+					}
+
+	}(MusicChan,)
+	return "", "Rest time!"
 }
 
-func NewsListener(NewsChan chan string) (news string,ending bool) {
-	news, ok := <- NewsChan
-	if ok {
-		fmt.Printf("Heading news!\n %s !'\n'", news)
-		time.Sleep(time.Second * 3)
-		return news, false
-	} else {
-		Output("Rest time!", "")
-		return "Rest time!", true
-	}
+func NewsListener(NewsChan chan string) (news string,err string) {
+	go func(MusicChan chan string) (res string, err string) {
+		news, ok := <-NewsChan
+		if ok {
+			Output("Heading news!\n" + news + "!\n", "")
+			time.Sleep(time.Second * 3)
+			return news, ""
+		} else {
+			Output("Rest time!", "")
+			return "", "Rest time!"
+		}
+	}(NewsChan)
+	return "", "Rest time!"
 }
