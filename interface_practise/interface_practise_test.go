@@ -80,12 +80,12 @@ func TestPolymorphism(t *testing.T) {
 	conn := con.GetConnection()
 	l := &Logger{}
 	q := &SqlQueryor{}
-	query_res,query_err := q.SqlQuering(conn, "fake sql")
-	l.LogOutput(query_err, query_res)
+	queryRes, queryErr := q.SqlQuering(conn, "fake sql")
+	l.LogOutput(queryErr, queryRes)
 	u := &SqlUpdator{}
-	update_res,update_err := u.SqlUpdating(conn, "fake updating sql")
-	l.LogOutput(update_err, update_res)
+	updateRes, updateErr := u.SqlUpdating(conn, "fake updating sql")
+	l.LogOutput(updateErr, updateRes)
 	c := &CloseSqlConn{}
-	close_res, close_err := c.CloseConnection(conn)
-	l.LogOutput(close_err, close_res)
+	closeRes, closeErr := c.CloseConnection(conn)
+	l.LogOutput(closeErr, closeRes)
 }

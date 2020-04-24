@@ -31,19 +31,6 @@ func TestMutex(t *testing.T) {
 			wg.Done()
 		}(p)
 	}
-	//AllPlayers := []string{"Henry Zhang", "David Beckham", "Cristiano Ronaldo", "Mesut Ozil"}
-	//for _,p := range AllPlayers {
-	//	wg.Add(1)
-	//	go func(p string) {
-	//		defer func() {
-	//			mut.Unlock()
-	//
-	//		}()
-	//		mut.Lock()
-	//		t.Logf("Player %s's coming!\n", p)
-	//		wg.Done()
-	//	}(p)
-	//}
 	wg.Wait()
 	t.Log("All players showed up!\n")
 }
