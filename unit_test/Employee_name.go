@@ -2,6 +2,12 @@ package unit
 
 import "fmt"
 
+type Employee struct {
+	Name         string
+	Age          int
+	SelfDescribe string `info:"self describe"`
+}
+
 func Capitalize(str string) string {
 	var upperStr string
 	vv := []rune(str)   // 后文有介绍
@@ -21,6 +27,27 @@ func Capitalize(str string) string {
 	return upperStr
 }
 
-func EmployeeName(name string) string {
-	return Capitalize(name)
+func Capitalized(str string) string {
+	StrHead := str[0]
+	if StrHead >= 97 && StrHead <= 122 { // 后文有介绍
+		StrHead -= 32
+	}
+	StrTail := str[1:]
+	return string(StrHead) + StrTail
+}
+
+func (ep *Employee) GetEmployeeName() string {
+	return Capitalize(ep.Name)
+}
+
+func (ep *Employee) GetEmployeeAge() int {
+	return ep.Age
+}
+
+func (ep *Employee) SetEmployeeAge(age int) {
+	ep.Age = age
+}
+
+func (ep *Employee) SetEmployeeName(name string) {
+	ep.Name = name
 }
