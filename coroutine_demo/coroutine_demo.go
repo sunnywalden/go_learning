@@ -1,4 +1,4 @@
-package coroutine_test
+package coroutine_demo
 
 import (
 	"fmt"

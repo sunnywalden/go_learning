@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 	"testing"
+	mulChan "github.com/sunnywalden/go_learning/multichannel_timeout"
 )
 
 func OnceDemo() {
@@ -20,7 +21,7 @@ func TestOnceTask(t *testing.T) {
 
 		go func(i int,once sync.Once) {
 			fmt.Printf("Task %d is running.\n"  ,i)
-			OnceTask(once, OnceDemo)
+			mulChan.OnceTask(once, OnceDemo)
 			wg.Done()
 		}(i, once)
 	}

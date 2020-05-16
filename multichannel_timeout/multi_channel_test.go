@@ -2,6 +2,8 @@ package multichannel_timeout
 
 import (
 	"testing"
+
+	mulChan "github.com/sunnywalden/go_learning/multichannel_timeout"
 )
 
 func Max(x, y int) int {
@@ -14,13 +16,13 @@ func Max(x, y int) int {
 
 func TestMusicChannel(t *testing.T) {
 	MusicChan := make(chan string, 5)
-	MusicChannel(MusicChan)
+	mulChan.MusicChannel(MusicChan)
 	for {
-		res,ending := MusicListener(MusicChan)
+		res,ending := mulChan.MusicListener(MusicChan)
 		if ending != "" {
 			break
 		} else {
-			Output("Music for now." + res + "\n", "")
+			mulChan.Output("Music for now." + res + "\n", "")
 		}
 	}
 
@@ -30,13 +32,13 @@ func TestMusicChannel(t *testing.T) {
 func TestNewsChannel(t *testing.T) {
 
 	NewsChan := make(chan string, 5)
-	NewsChannel(NewsChan)
+	mulChan.NewsChannel(NewsChan)
 	for {
-		res,ending := NewsListener(NewsChan)
+		res,ending := mulChan.NewsListener(NewsChan)
 		if ending != "" {
 			break
 		} else {
-			Output("News for now." + res +  "\n", "")
+			mulChan.Output("News for now." + res +  "\n", "")
 		}
 	}
 
