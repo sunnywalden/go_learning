@@ -1,4 +1,4 @@
-package coroutine_demo_test
+package coroutine_demo
 
 import (
 	"github.com/sunnywalden/go_learning/coroutine_demo"
