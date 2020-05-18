@@ -7,17 +7,11 @@ import (
 	"github.com/sunnywalden/go_learning/object_defination"
 )
 
-func testJsonResolve() (res []byte, err error) {
-	user := &object_defination.User{
-		Id: "0001",
-		Username: "henry",
-		Password: "Demo",
-		Age: 30,
-	}
+func testJsonGene(testData interface{}) (res []byte, err error) {
 
-	data, resolveErr := object_defination.JsonResolve(user)
+	data, resolveErr := object_defination.JsonGenerator(testData)
 	if resolveErr == nil {
-		fmt.Print("Json decode success!\n")
+		fmt.Print("Json encode success!\n")
 		fmt.Printf("%s\n", data)
 	} else {
 		fmt.Errorf("%e\n", err)
@@ -26,28 +20,127 @@ func testJsonResolve() (res []byte, err error) {
 	return data, err
 }
 
-func TestJsonResolve(t *testing.T) {
-	data, err := testJsonResolve()
-	if err != nil {
-		t.Errorf("%e\n", err)
+func testJsonReso(jsonData []byte, originType interface{}) (res interface{}, err error) {
+
+	data, resolveErr := object_defination.JsonResolve(jsonData, originType)
+	if resolveErr == nil {
+		fmt.Print("Json decode success!\n")
+		fmt.Printf("%s\n", data)
 	} else {
-		t.Logf("%s\n", data)
+		fmt.Errorf("%e\n", resolveErr)
+	}
+
+	return data, resolveErr
+}
+
+func BenchmarkJsonEncode(b *testing.B) {
+	user := &object_defination.User{
+		Id: "0001",
+		Username: "henry",
+		Password: "Demo",
+		Age: 30,
+	}
+
+	b.StartTimer()
+	data, err := testJsonGene(user)
+	b.StopTimer()
+	if err != nil {
+		b.Errorf("%e\n", err)
+	} else {
+		b.Logf("%s\n", data)
 	}
 }
 
 
-func TestJsonDecode(t *testing.T) {
-	data, err := testJsonResolve()
+func BenchmarkJsonDecode(b *testing.B) {
+	user := &object_defination.User{
+		Id: "0001",
+		Username: "henry",
+		Password: "Demo",
+		Age: 30,
+	}
+
+	data, err := object_defination.JsonGenerator(user)
 	if err != nil {
-		t.Errorf("%e\n", err)
+		b.Errorf("%e\n", err)
 	} else {
-		t.Logf("%s\n", data)
-		res, decodeErr := object_defination.JsonGenerator(data, object_defination.User{})
+		b.Logf("%s\n", data)
+		b.StartTimer()
+		res, decodeErr := object_defination.JsonResolve(data, object_defination.User{})
+		b.StopTimer()
 		if decodeErr != nil {
-			t.Errorf("%e\n", decodeErr)
+			b.Errorf("%e\n", decodeErr)
 		} else {
-			t.Log("Json decode success!\n")
-			t.Logf("%s\n", res)
+			b.Log("Json decode success!\n")
+			b.Logf("%s\n", res)
+		}
+	}
+}
+
+func testJsonDump(testData interface{}) (res []byte, err error) {
+
+	data, resolveErr := JsonDump(testData)
+	if resolveErr == nil {
+		fmt.Print("Json dump success!\n")
+		fmt.Printf("%s\n", data)
+	} else {
+		fmt.Errorf("%e\n", err)
+	}
+
+	return data, err
+}
+
+func BenchmarkJsonDump(b *testing.B) {
+	user := &object_defination.User{
+		Id: "0001",
+		Username: "henry",
+		Password: "Demo",
+		Age: 30,
+	}
+
+	b.StartTimer()
+	data, err := testJsonDump(user)
+	b.StopTimer()
+	if err != nil {
+		b.Errorf("%e\n", err)
+	} else {
+		b.Logf("%s\n", data)
+	}
+}
+
+func testJsonLoad(testData []byte, originType interface{}) (res interface{}, err error) {
+
+	data, resolveErr := JsonLoad(testData, originType)
+	if resolveErr == nil {
+		fmt.Print("Json load success!\n")
+		fmt.Printf("%s\n", data)
+	} else {
+		fmt.Errorf("%e\n", err)
+	}
+
+	return data, err
+}
+
+func BenchmarkJsonLoad(b *testing.B) {
+	user := &object_defination.User{
+		Id: "0001",
+		Username: "henry",
+		Password: "Demo",
+		Age: 30,
+	}
+
+	data, err := testJsonDump(user)
+	if err != nil {
+		b.Errorf("%e\n", err)
+	} else {
+		b.Logf("%s\n", data)
+		b.StartTimer()
+		res, err := testJsonLoad(data, object_defination.User{})
+		b.StopTimer()
+		if err != nil {
+			b.Errorf("%s", err)
+		} else {
+			b.Logf("Json load success!%s", res)
 		}
 	}
 }
