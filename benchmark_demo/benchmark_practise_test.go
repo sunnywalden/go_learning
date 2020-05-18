@@ -1,7 +1,7 @@
 package benchmark_demo
 
 import (
-	unit "go_learning/unit_test"
+	"github.com/sunnywalden/go_learning/unit"
 	"testing"
 )
 

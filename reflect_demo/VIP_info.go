@@ -1,7 +1,7 @@
 package reflect_demo
 
 import "time"
-import "go_learning/unit_test"
+import "github.com/sunnywalden/go_learning/unit"
 
 type VIP struct {
 	Id string

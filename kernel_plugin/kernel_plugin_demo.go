@@ -1,7 +1,6 @@
 package kernel_plugin
 
 import (
-	"container/list"
 	"errors"
 	"fmt"
 )
@@ -20,13 +19,15 @@ type PluginManage struct {
 func ListIndex(list []interface{},target interface{}) int {
 	for i,s := range list {
 		if s == target {
-			result = append(list[:i],list[i+1:]...)
-			return true,nil
+			list = append(list[:i],list[i+1:]...)
+			return 1
 		} else {
 			fmt.Printf("no %s matched found", target)
 			return -1
 		}
 	}
+	fmt.Print(list)
+	return -1
 }
 
 func(pm *PluginManage) PluginRegister(pl Plugin) (bool, error) {

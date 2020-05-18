@@ -1,8 +1,8 @@
-package unit_test
+package unit
 
 import (
 	"github.com/stretchr/testify/assert"
-	unit "go_learning/unit_test"
+	"github.com/sunnywalden/go_learning/unit"
 	"testing"
 )
 

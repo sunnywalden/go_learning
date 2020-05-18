@@ -1,11 +1,11 @@
-package coroutine_test_test
+package coroutine_demo
 
 import (
-	"go_learning/coroutine_test"
+	"github.com/sunnywalden/go_learning/coroutine_demo"
 	"testing"
 )
 
 func TestCoroutine(t *testing.T) {
 	allNames := []string{"Henry Zhang", "David Beckham", "Cristiano Ronaldo", "Mesut Ozil"}
-	coroutine_test.PrintPlayer(allNames)
+	coroutine_demo.PrintPlayer(allNames)
 }
