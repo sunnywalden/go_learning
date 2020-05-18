@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func JsonResolve(obj interface{}) (data []byte, err error) {
+func JsonGenerator(obj interface{}) (data []byte, err error) {
 
 	res, err := json.Marshal(obj)
 	if err == nil {
@@ -18,7 +18,7 @@ func JsonResolve(obj interface{}) (data []byte, err error) {
 }
 
 
-func JsonGenerator(jsonObj []byte, obj interface{}) (data interface{}, err error) {
+func JsonResolve(jsonObj []byte, obj interface{}) (data interface{}, err error) {
 
 	resolveErr := json.Unmarshal(jsonObj, &obj)
 	if resolveErr == nil {
