@@ -1,8 +1,8 @@
-package main
+package http_demo
 
 import (
 	"fmt"
-	jsoniter "github.com/json-iterator/go"
+	"github.com/json-iterator/go"
 	"log"
 	"net/http"
 )
@@ -16,7 +16,7 @@ type User struct {
 	password Password
 }
 
-func allUsers() (map[string]User, error) {
+func AllUsers() (map[string]User, error) {
 	var users = make(map[string]User)
 	sunny := &User{
 		name: "sunnywalden",
@@ -33,7 +33,7 @@ func allUsers() (map[string]User, error) {
 	return users, nil
 }
 
-func mainHandler(w http.ResponseWriter, r *http.Request) {
+func MainHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	postMethord := r.Method
 	switch postMethord {
@@ -46,9 +46,9 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func userList(w http.ResponseWriter, r *http.Request) {
+func UserList(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	allOfUsers, _ := allUsers()
+	allOfUsers, _ := AllUsers()
 	fmt.Print(allOfUsers,"\n")
 
 	var names []string
@@ -63,9 +63,9 @@ func userList(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "%s", jsonNames)
 }
 
-func emailList(w http.ResponseWriter, r *http.Request) {
+func EmailList(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	allOfUsers, _ := allUsers()
+	allOfUsers, _ := AllUsers()
 	fmt.Print(allOfUsers,"\n")
 
 	var emails []Email
@@ -81,10 +81,10 @@ func emailList(w http.ResponseWriter, r *http.Request) {
 }
 
 
-func main() {
-	http.HandleFunc("/", mainHandler)
-	http.HandleFunc("/users", userList)
-	http.HandleFunc("/emails", emailList)
+func httpMain() {
+	http.HandleFunc("/", MainHandler)
+	http.HandleFunc("/users", UserList)
+	http.HandleFunc("/emails", EmailList)
 	err := http.ListenAndServe(":8088", nil)
 	if err != nil {
 		log.Fatal("ERROR: ", err)

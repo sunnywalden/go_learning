@@ -3,9 +3,9 @@ package unit
 import "fmt"
 
 type Employee struct {
-	Name         string
-	Age          int
-	SelfDescribe string `info:"self describe"`
+	Name         string `json:"name"`
+	Age          int    `json:"age"`
+	SelfDescribe string `json:"self_describe",info:"self describe"`
 }
 
 func Capitalize(str string) string {

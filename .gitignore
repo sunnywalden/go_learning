@@ -1,7 +1,4 @@
 .idea
-
 */*
 !*.go
-*.sum
 pkg
-go.mod
