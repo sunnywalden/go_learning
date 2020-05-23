@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"errors"
+	_ "net/http/pprof"
 
 	"github.com/json-iterator/go"
 	"github.com/julienschmidt/httprouter"
@@ -51,7 +52,7 @@ func home(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	//}
 	fmt.Fprintf(w, "%s", userInfo)
 	//w.Write(user)
-	w.Write()
+	//w.Write()
 }
 
 func allUsers() (map[string]User, error) {

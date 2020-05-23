@@ -1,10 +1,11 @@
-package http_demo
+package main
 
 import (
 	"fmt"
 	"github.com/json-iterator/go"
 	"log"
 	"net/http"
+	_ "net/http/pprof"
 )
 
 type Email string
@@ -81,7 +82,7 @@ func EmailList(w http.ResponseWriter, r *http.Request) {
 }
 
 
-func httpMain() {
+func main() {
 	http.HandleFunc("/", MainHandler)
 	http.HandleFunc("/users", UserList)
 	http.HandleFunc("/emails", EmailList)
