@@ -2,7 +2,6 @@ package reflect_demo
 
 import (
 	"fmt"
-	ref "github.com/sunnywalden/go_learning/reflect_demo"
 	"github.com/sunnywalden/go_learning/unit"
 	"reflect"
 	"testing"
@@ -18,7 +17,7 @@ func SetName(name string,info interface{}) interface{} {
 
 func TestCommonFunc(t *testing.T) {
 	employeeHenry := &unit.Employee{}
-	vipHenry := new(ref.VIP)
+	vipHenry := new(VIP)
 
 	epHenry := SetName("Henry Zhang", employeeHenry)
 	vpHenry := SetName("Hnery", vipHenry)

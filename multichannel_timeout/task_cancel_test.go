@@ -4,8 +4,6 @@ import (
 	"context"
 	"sync"
 	"testing"
-
-	mulChan "github.com/sunnywalden/go_learning/multichannel_timeout"
 )
 
 
@@ -16,7 +14,7 @@ func TestMusic(t *testing.T) {
 	ctx,cancel := context.WithCancel(context.Background())
 	var wg sync.WaitGroup
 
-	mulChan.MusicChannel(MusicChan)
+	MusicChannel(MusicChan)
 
 
 	for i :=0;i < 3;i++ {
@@ -24,10 +22,10 @@ func TestMusic(t *testing.T) {
 		go func(ctx context.Context) {
 			for {
 				if IsCancel(ctx) {
-					mulChan.Output("I don't want to listen this channel anymore!", "")
+					Output("I don't want to listen this channel anymore!", "")
 					break
 				} else {
-					_, err := mulChan.MusicListener(MusicChan)
+					_, err := MusicListener(MusicChan)
 					if err == "" {
 						break
 					}
@@ -39,7 +37,7 @@ func TestMusic(t *testing.T) {
 
 	wg.Wait()
 	cancel()
-	mulChan.Output("Stop listening!\n", "")
+	Output("Stop listening!\n", "")
 }
 
 
@@ -49,17 +47,17 @@ func TestNews(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	var wg sync.WaitGroup
 
-	mulChan.NewsChannel(NewsChan)
+	NewsChannel(NewsChan)
 
 	for i := 0; i < 2; i++ {
 		wg.Add(1)
 		go func(ctx context.Context) {
 			for {
 				if IsCancel(ctx) {
-					mulChan.Output("I don't want to listen this channel anymore!", "")
+					Output("I don't want to listen this channel anymore!", "")
 					break
 				} else {
-					_, err := mulChan.MusicListener(NewsChan)
+					_, err := MusicListener(NewsChan)
 					if err == "" {
 						break
 					}
@@ -71,5 +69,5 @@ func TestNews(t *testing.T) {
 
 	wg.Wait()
 	cancel()
-	mulChan.Output("Stop listening!\n", "")
+	Output("Stop listening!\n", "")
 }

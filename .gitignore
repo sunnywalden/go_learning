@@ -3,3 +3,5 @@
 !*.go
 pkg
 .svg
+.scannerwork
+golint_res.txt

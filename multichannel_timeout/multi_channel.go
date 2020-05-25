@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"time"
 
-	mulChan "github.com/sunnywalden/go_learning/multichannel_timeout"
-
 )
 
 func MultiChannelListener(MusicChan,NewsChan  chan string) (res string,err string) {
@@ -47,12 +45,12 @@ func MusicListener(MusicChan chan string) (res string, err string) {
 	//go func(MusicChan chan string) (res string, err string) {
 			music, ok := <-MusicChan
 			if ok {
-					mulChan.Output("Next music! " + music + "!\n", "")
+					Output("Next music! " + music + "!\n", "")
 					time.Sleep(time.Second * 3)
 					return music, ""
 				} else {
 					//close(MusicChan)
-					mulChan.Output("Rest time!", "")
+					Output("Rest time!", "")
 					return "", "Rest time!"
 					}
 
@@ -64,12 +62,12 @@ func NewsListener(NewsChan chan string) (news string,err string) {
 	//go func(MusicChan chan string) (res string, err string) {
 		news, ok := <-NewsChan
 		if ok {
-			mulChan.Output("Heading news!\n" + news + "!\n", "")
+			Output("Heading news!\n" + news + "!\n", "")
 			time.Sleep(time.Second * 3)
 			return news, ""
 		} else {
 			//close(NewsChan)
-			mulChan.Output("Rest time!", "")
+			Output("Rest time!", "")
 			return "", "Rest time!"
 		}
 	//}(NewsChan)

@@ -1,9 +1,5 @@
 package multichannel_timeout
 
-import (
-	mulChan "github.com/sunnywalden/go_learning/multichannel_timeout"
-)
-
 //func FistRadio(MusicChan, NewsChan chan string) string {
 //	MusicChannel(MusicChan)
 //	NewsChannel(NewsChan)
@@ -20,8 +16,8 @@ import (
 
 func FistRadio(MusicChan, NewsChan chan string) string {
 	FirstChan := make(chan string)
-	mulChan.MusicChannel(MusicChan)
-	mulChan.NewsChannel(NewsChan)
+	MusicChannel(MusicChan)
+	NewsChannel(NewsChan)
 	AllChan := []chan string{MusicChan, NewsChan}
 	for _,CurrentChan := range AllChan {
 		go func(CurrentChan chan string,FirstChan chan string) {
