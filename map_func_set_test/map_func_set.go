@@ -19,9 +19,9 @@ func TestSet(t *testing.T) {
 	user1 := "Henry"
 	user2 := "Walden"
 	if s1[user1] {
-		t.Log("User %s already exists", user1)
+		t.Logf("User %s already exists", user1)
 	} else {
 		s1[user2] = true
-		t.Log("User %s registry success!", user2)
+		t.Logf("User %s registry success!", user2)
 	}
 }

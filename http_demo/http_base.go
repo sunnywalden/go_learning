@@ -36,8 +36,12 @@ func AllUsers() (map[string]User, error) {
 
 func MainHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	postMethord := r.Method
-	switch postMethord {
+	postMethod := r.Method
+	if postMethod != "post" {
+		return
+	}
+	defer fmt.Printf("%s", "panic catched")
+	switch postMethod {
 	case "post", "POST":
 		fmt.Fprintf(w,"<h1>Post from %s</h1>", r.URL)
 	case "get", "GET":
