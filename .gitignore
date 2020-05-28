@@ -4,4 +4,7 @@
 pkg
 .svg
 .scannerwork
-golint_res.txt
+.txt
+reports
+!.gitkeep
+.out
