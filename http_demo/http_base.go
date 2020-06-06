@@ -1,11 +1,13 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"github.com/json-iterator/go"
 	"log"
 	"net/http"
 	_ "net/http/pprof"
+	"os"
 )
 
 type Email string
@@ -87,10 +89,29 @@ func EmailList(w http.ResponseWriter, r *http.Request) {
 
 
 func main() {
+	var port string
+	var host string
+
+	cmdLine := flag.NewFlagSet("http_server", flag.PanicOnError)
+	cmdLine.StringVar(&port, "p", "8088", "端口号，默认为8088")
+	cmdLine.StringVar(&host, "h", "127.0.0.1", "主机名，默认127.0.0.1")
+	cmdLine.Parse(os.Args[1:])
+	//flag.StringVar(&port, "p", "8088", "端口号，默认为8088")
+	//flag.StringVar(&host, "h", "127.0.0.1", "主机名，默认127.0.0.1")
+	//flag.Parse()
+
+
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage of %s:\n", "http base")
+		flag.PrintDefaults()
+	}
+
 	http.HandleFunc("/", MainHandler)
 	http.HandleFunc("/users", UserList)
 	http.HandleFunc("/emails", EmailList)
-	err := http.ListenAndServe(":8088", nil)
+	addr := host + ":" + port
+	log.Printf(addr)
+	err := http.ListenAndServe(addr, nil)
 	if err != nil {
 		log.Fatal("ERROR: ", err)
 	}
